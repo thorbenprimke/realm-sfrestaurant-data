@@ -13,7 +13,13 @@ import co.moonmonkeylabs.realmsfrestaurantdata.model.Business;
 
 public class SFRestaurantDataLoader {
 
-    public final List<Business> loadBusinessesData(Context context) {
+    private static final int DATA_SET_SMALL_NUM = 500;
+
+    public final List<Business> loadBusinessSmallDataSet(Context context) {
+        return loadBusinessesData(context, DATA_SET_SMALL_NUM);
+    }
+
+    public final List<Business> loadBusinessesData(Context context, int limit) {
         List<Business> businesses = new ArrayList<>();
 
         InputStream is = context.getResources().openRawResource(R.raw.businesses);
@@ -22,7 +28,7 @@ public class SFRestaurantDataLoader {
         try {
             String line;
             int lineNumber = 0;
-            while ((line = reader.readLine()) != null && lineNumber < 500) {
+            while ((line = reader.readLine()) != null && (limit == -1 || lineNumber < limit)) {
                 if (lineNumber++ == 0) {
                     continue;
                 }
