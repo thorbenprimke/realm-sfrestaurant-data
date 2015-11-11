@@ -10,16 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 import co.moonmonkeylabs.realmsfrestaurantdata.model.Business;
+import io.realm.Realm;
 
 public class SFRestaurantDataLoader {
 
     private static final int DATA_SET_SMALL_NUM = 500;
 
-    public final List<Business> loadBusinessSmallDataSet(Context context) {
-        return loadBusinessesData(context, DATA_SET_SMALL_NUM);
+    public final void loadBusinessSmallDataSet(Context context) {
+        loadBusinessesData(context, DATA_SET_SMALL_NUM);
     }
 
-    public final List<Business> loadBusinessesData(Context context, int limit) {
+    public final void loadBusinessesData(Context context, int limit) {
         List<Business> businesses = new ArrayList<>();
 
         InputStream is = context.getResources().openRawResource(R.raw.businesses);
@@ -52,7 +53,12 @@ public class SFRestaurantDataLoader {
             }
             catch (IOException e) {}
         }
-        return businesses;
+
+        Realm realm = Realm.getDefaultInstance();
+        realm.beginTransaction();
+        realm.copyToRealm(businesses);
+        realm.commitTransaction();
+        realm.close();
     }
 
     private String removeQuotes(String original) {
