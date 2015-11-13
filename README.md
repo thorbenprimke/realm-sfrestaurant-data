@@ -1,5 +1,5 @@
 ## Sample Data
 
-A project that uses the NYTimes Api to load the top stories and stores them into a Realm.
+A project that uses a CSV of San Francisco restaurants that can be loaded into Realm as sample data.
 
 
